@@ -1,0 +1,36 @@
+/*
+ * ========================================
+ * LIGHT THEME - CSS Variables
+ * ========================================
+ */
+
+[data-theme='light'] {
+  /* ===== Colors ===== */
+  --color-background: #f8fafc;
+  --color-text: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94a3b8;
+
+  --color-card: #ffffff;
+  --color-border: #e2e8f0;
+
+  --color-primary: #3b82f6;
+  --color-primary-light: #eff6ff;
+
+  --color-success: #22c55e;
+  --color-success-light: #f0fdf4;
+
+  --color-warning: #eab308;
+  --color-warning-light: #fefce8;
+
+  --color-info: #3b82f6;
+  --color-info-light: #eff6ff;
+
+  --color-danger: #ef4444;
+  --color-danger-light: #fef2f2;
+
+  /* ===== Shadows ===== */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}

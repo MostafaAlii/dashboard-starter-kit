@@ -1,0 +1,137 @@
+/* ========================================
+   DARK THEME
+   ======================================== */
+[data-theme='dark'] {
+  /* ===== Backgrounds ===== */
+  --color-background: #0f172a;
+  --color-background-secondary: #1e293b;
+  --color-background-tertiary: #2d3a4f;
+  --color-background-inverse: #f1f5f9;
+
+  /* ===== Text Colors ===== */
+  --color-text: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #0f172a;
+  --color-text-light: #f8fafc;
+
+  /* ===== Primary Colors ===== */
+  --color-primary: #60a5fa;
+  --color-primary-hover: #3b82f6;
+  --color-primary-active: #2563eb;
+  --color-primary-light: #172554;
+  --color-primary-dark: #1e3a8a;
+
+  /* ===== Secondary Colors ===== */
+  --color-secondary: #8b5cf6;
+  --color-secondary-hover: #7c3aed;
+  --color-secondary-active: #6d28d9;
+  --color-secondary-light: #2e1065;
+
+  /* ===== Success Colors ===== */
+  --color-success: #4ade80;
+  --color-success-hover: #22c55e;
+  --color-success-active: #16a34a;
+  --color-success-light: #052e16;
+  --color-success-dark: #14532d;
+
+  /* ===== Warning Colors ===== */
+  --color-warning: #facc15;
+  --color-warning-hover: #eab308;
+  --color-warning-active: #ca8a04;
+  --color-warning-light: #422006;
+  --color-warning-dark: #713f12;
+
+  /* ===== Error Colors ===== */
+  --color-error: #f87171;
+  --color-error-hover: #ef4444;
+  --color-error-active: #dc2626;
+  --color-error-light: #450a0a;
+  --color-error-dark: #7f1d1d;
+
+  /* ===== Info Colors ===== */
+  --color-info: #60a5fa;
+  --color-info-hover: #3b82f6;
+  --color-info-active: #2563eb;
+  --color-info-light: #172554;
+  --color-info-dark: #1e3a8a;
+
+  /* ===== Borders ===== */
+  --color-border: #1e293b;
+  --color-border-light: #334155;
+  --color-border-dark: #0f172a;
+  --color-border-hover: #475569;
+
+  /* ===== Cards ===== */
+  --color-card: #1e293b;
+  --color-card-hover: #2d3a4f;
+  --color-card-active: #334155;
+  --color-card-border: #334155;
+
+  /* ===== Sidebar ===== */
+  --color-sidebar: #0f172a;
+  --color-sidebar-border: #1e293b;
+  --color-sidebar-hover: #1e293b;
+  --color-sidebar-active: #172554;
+  --color-sidebar-text: #94a3b8;
+  --color-sidebar-text-active: #f1f5f9;
+  --color-sidebar-icon: #64748b;
+  --color-sidebar-icon-active: #60a5fa;
+
+  /* ===== Header ===== */
+  --color-header: #0f172a;
+  --color-header-border: #1e293b;
+  --color-header-text: #f1f5f9;
+  --color-header-hover: #1e293b;
+
+  /* ===== Dropdowns ===== */
+  --color-dropdown: #1e293b;
+  --color-dropdown-hover: #2d3a4f;
+  --color-dropdown-border: #334155;
+
+  /* ===== Inputs ===== */
+  --color-input: #1e293b;
+  --color-input-border: #334155;
+  --color-input-hover: #475569;
+  --color-input-focus: #3b82f6;
+  --color-input-text: #f1f5f9;
+  --color-input-placeholder: #64748b;
+
+  /* ===== Scrollbar ===== */
+  --color-scrollbar-track: #1e293b;
+  --color-scrollbar-thumb: #334155;
+  --color-scrollbar-thumb-hover: #475569;
+
+  /* ===== Shadows ===== */
+  --color-shadow: rgba(0, 0, 0, 0.4);
+  --color-shadow-light: rgba(0, 0, 0, 0.2);
+
+  /* ===== Overlay ===== */
+  --color-overlay: rgba(15, 23, 42, 0.8);
+  --color-overlay-light: rgba(15, 23, 42, 0.5);
+
+  /* ===== Skeleton ===== */
+  --color-skeleton: #1e293b;
+  --color-skeleton-shine: #2d3a4f;
+
+  /* ===== Divider ===== */
+  --color-divider: #1e293b;
+}
+
+/* ===== Dark Theme Specific Overrides ===== */
+[data-theme='dark'] .shadow-sm {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Dark Theme Images ===== */
+[data-theme='dark'] img:not([src*='.svg']) {
+  filter: brightness(0.8) contrast(1.2);
+}

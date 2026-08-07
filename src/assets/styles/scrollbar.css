@@ -1,0 +1,223 @@
+/* ========================================
+   CUSTOM SCROLLBAR
+   ======================================== */
+
+/* ===== Webkit Browsers (Chrome, Edge, Safari) ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-scrollbar-track, #f1f5f9);
+  border-radius: var(--radius-full, 9999px);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb, #cbd5e1);
+  border-radius: var(--radius-full, 9999px);
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-scrollbar-thumb-hover, #94a3b8);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ===== Firefox ===== */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-scrollbar-thumb, #cbd5e1) var(--color-scrollbar-track, #f1f5f9);
+}
+
+/* ===== Custom Scrollbar Classes ===== */
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Thin scrollbar */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+/* Thick scrollbar */
+.scrollbar-thick::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.scrollbar-thick::-webkit-scrollbar-thumb {
+  border-radius: var(--radius-md, 8px);
+}
+
+/* Rounded scrollbar */
+.scrollbar-rounded::-webkit-scrollbar-thumb {
+  border-radius: var(--radius-full, 9999px);
+}
+
+.scrollbar-rounded::-webkit-scrollbar-track {
+  border-radius: var(--radius-full, 9999px);
+}
+
+/* Square scrollbar */
+.scrollbar-square::-webkit-scrollbar-thumb {
+  border-radius: 0;
+}
+
+.scrollbar-square::-webkit-scrollbar-track {
+  border-radius: 0;
+}
+
+/* Scrollbar with padding */
+.scrollbar-padded {
+  padding-right: 4px;
+}
+
+.scrollbar-padded::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* ===== Scrollbar Colors ===== */
+.scrollbar-primary::-webkit-scrollbar-thumb {
+  background: var(--color-primary, #3b82f6);
+}
+
+.scrollbar-primary::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-hover, #2563eb);
+}
+
+.scrollbar-success::-webkit-scrollbar-thumb {
+  background: var(--color-success, #22c55e);
+}
+
+.scrollbar-success::-webkit-scrollbar-thumb:hover {
+  background: var(--color-success-hover, #16a34a);
+}
+
+.scrollbar-warning::-webkit-scrollbar-thumb {
+  background: var(--color-warning, #eab308);
+}
+
+.scrollbar-warning::-webkit-scrollbar-thumb:hover {
+  background: var(--color-warning-hover, #ca8a04);
+}
+
+.scrollbar-error::-webkit-scrollbar-thumb {
+  background: var(--color-error, #ef4444);
+}
+
+.scrollbar-error::-webkit-scrollbar-thumb:hover {
+  background: var(--color-error-hover, #dc2626);
+}
+
+/* ===== Scrollbar Visibility ===== */
+.scrollbar-auto {
+  overflow: auto;
+}
+
+.scrollbar-auto::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-always {
+  overflow: scroll;
+}
+
+.scrollbar-always::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* ===== Scrollbar Smooth ===== */
+.scrollbar-smooth {
+  scroll-behavior: smooth;
+}
+
+/* ===== OS Default Scrollbar ===== */
+.scrollbar-default::-webkit-scrollbar {
+  width: auto;
+  height: auto;
+}
+
+.scrollbar-default {
+  scrollbar-width: auto;
+}
+
+/* ===== Scrollbar Container ===== */
+.scroll-container {
+  overflow: auto;
+  scroll-behavior: smooth;
+}
+
+.scroll-container::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb, #cbd5e1);
+  border-radius: var(--radius-full, 9999px);
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background: var(--color-scrollbar-thumb-hover, #94a3b8);
+}
+
+/* ===== Horizontal Scrollbar ===== */
+.scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.scroll-x::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scroll-x::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-x::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb, #cbd5e1);
+  border-radius: var(--radius-full, 9999px);
+}
+
+/* ===== Vertical Scrollbar ===== */
+.scroll-y {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.scroll-y::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scroll-y::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-y::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb, #cbd5e1);
+  border-radius: var(--radius-full, 9999px);
+}
