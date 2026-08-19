@@ -1,3 +1,4 @@
+import { env } from "./env";
 import { theme } from "../theme";
 
 interface ThemeConfig {
@@ -28,7 +29,7 @@ interface ThemeConfig {
 }
 
 export const themeConfig: ThemeConfig = {
-  defaultTheme: "system",
+  defaultTheme: env.VITE_DEFAULT_THEME,
   themes: {
     light: {
       name: "Light",
