@@ -32,6 +32,20 @@ import {
   RadioGroup,
   Switch,
   useToast,
+  Breadcrumbs,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableHeadCell,
+  Pagination,
+  Tabs,
+  TabList,
+  TabTrigger,
+  TabPanel,
+  FormWizard,
+  FormStep,
 } from '../../../core/components/ui';
 
 // ===== Icons =====
@@ -45,6 +59,11 @@ import {
   Trash2,
   Check,
   EyeOff,
+  Home,
+  Users,
+  Settings,
+  FileText,
+  Award,
 } from 'lucide-react';
 
 const PlaygroundPage = () => {
@@ -61,6 +80,27 @@ const PlaygroundPage = () => {
   const [switchChecked, setSwitchChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  // ===== Pagination States =====
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const totalItems = 150;
+  const totalPages = Math.ceil(totalItems / pageSize);
+
+  // ===== Tabs States =====
+  const [activeTab, setActiveTab] = useState('tab1');
+
+  // ===== Form Wizard States =====
+  const [wizardStep, setWizardStep] = useState(0);
+
+  // ===== Table Data =====
+  const tableData = [
+    { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin', status: 'Active' },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User', status: 'Active' },
+    { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'Editor', status: 'Inactive' },
+    { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'User', status: 'Active' },
+    { id: 5, name: 'Charlie Wilson', email: 'charlie@example.com', role: 'Admin', status: 'Active' },
+  ];
+
   const isRTL = direction === 'rtl';
 
   // ===== Options =====
@@ -74,6 +114,13 @@ const PlaygroundPage = () => {
     { value: 'option1', label: isRTL ? 'الخيار الأول' : 'Option 1' },
     { value: 'option2', label: isRTL ? 'الخيار الثاني' : 'Option 2' },
     { value: 'option3', label: isRTL ? 'الخيار الثالث' : 'Option 3' },
+  ];
+
+  // ===== Breadcrumbs Items =====
+  const breadcrumbItems = [
+    { label: isRTL ? 'الرئيسية' : 'Home', href: '/', icon: <Home size={14} /> },
+    { label: isRTL ? 'المستخدمين' : 'Users', href: '/users' },
+    { label: isRTL ? 'الملف الشخصي' : 'Profile', active: true },
   ];
 
   // ===== Handlers =====
@@ -117,7 +164,7 @@ const PlaygroundPage = () => {
     <div
       style={{
         padding: '2rem',
-        maxWidth: '1200px',
+        maxWidth: '1400px',
         margin: '0 auto',
         direction: isRTL ? 'rtl' : 'ltr',
       }}
@@ -161,6 +208,324 @@ const PlaygroundPage = () => {
           {isRTL ? 'اللغة الحالية' : 'Current Language'}: {language} ({direction})
         </Badge>
       </div>
+
+      {/* ========================================
+          SECTION: Breadcrumbs
+          ======================================== */}
+      <Card variant="default" padding="md" style={{ marginBottom: '2rem' }}>
+        <CardHeader>
+          <h3 style={{ fontSize: 'var(--font-size-lg, 18px)', fontWeight: 600 }}>
+            🍞 {isRTL ? 'مسار التنقل' : 'Breadcrumbs'}
+          </h3>
+          <Badge>{isRTL ? 'مع أيقونات' : 'With Icons'}</Badge>
+        </CardHeader>
+        <CardBody>
+          <Breadcrumbs items={breadcrumbItems} />
+          
+          <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--color-border)' }}>
+            <Breadcrumbs 
+              items={[
+                { label: isRTL ? 'الرئيسية' : 'Home', href: '/' },
+                { label: isRTL ? 'المستخدمين' : 'Users', href: '/users' },
+                { label: isRTL ? 'المستخدمين النشطين' : 'Active Users', active: true },
+              ]} 
+              maxItems={3}
+            />
+            <p style={{ fontSize: 'var(--font-size-xs, 12px)', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>
+              {isRTL ? 'مع حد أقصى 3 عناصر' : 'With max 3 items'}
+            </p>
+          </div>
+        </CardBody>
+      </Card>
+
+      {/* ========================================
+          SECTION: Table
+          ======================================== */}
+      <Card variant="default" padding="md" style={{ marginBottom: '2rem' }}>
+        <CardHeader>
+          <h3 style={{ fontSize: 'var(--font-size-lg, 18px)', fontWeight: 600 }}>
+            📊 {isRTL ? 'الجدول' : 'Table'}
+          </h3>
+          <Badge>{isRTL ? 'مع فرز' : 'With Sorting'}</Badge>
+        </CardHeader>
+        <CardBody>
+          <Table striped hoverable bordered>
+            <TableHeader>
+              <TableRow>
+                <TableHeadCell sortable sorted="asc">
+                  {isRTL ? 'المعرف' : 'ID'}
+                </TableHeadCell>
+                <TableHeadCell sortable>
+                  {isRTL ? 'الاسم' : 'Name'}
+                </TableHeadCell>
+                <TableHeadCell sortable>
+                  {isRTL ? 'البريد الإلكتروني' : 'Email'}
+                </TableHeadCell>
+                <TableHeadCell sortable>
+                  {isRTL ? 'الدور' : 'Role'}
+                </TableHeadCell>
+                <TableHeadCell>
+                  {isRTL ? 'الحالة' : 'Status'}
+                </TableHeadCell>
+                <TableHeadCell align="center">
+                  {isRTL ? 'الإجراءات' : 'Actions'}
+                </TableHeadCell>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {tableData.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell>{row.id}</TableCell>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.email}</TableCell>
+                  <TableCell>
+                    <Badge variant={row.role === 'Admin' ? 'danger' : row.role === 'Editor' ? 'warning' : 'primary'} size="sm">
+                      {row.role}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={row.status === 'Active' ? 'success' : 'ghost'} size="sm" dot>
+                      {row.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell align="center">
+                    <div style={{ display: 'flex', gap: '0.25rem', justifyContent: 'center' }}>
+                      <Button size="xs" variant="ghost">
+                        <Edit size={14} />
+                      </Button>
+                      <Button size="xs" variant="ghost" danger>
+                        <Trash2 size={14} />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardBody>
+      </Card>
+
+      {/* ========================================
+          SECTION: Pagination
+          ======================================== */}
+      <Card variant="default" padding="md" style={{ marginBottom: '2rem' }}>
+        <CardHeader>
+          <h3 style={{ fontSize: 'var(--font-size-lg, 18px)', fontWeight: 600 }}>
+            📄 {isRTL ? 'ترقيم الصفحات' : 'Pagination'}
+          </h3>
+        </CardHeader>
+        <CardBody>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            pageSize={pageSize}
+            pageSizeOptions={[10, 25, 50, 100]}
+            onPageSizeChange={setPageSize}
+            totalItems={totalItems}
+            showFirstLast
+            showPrevNext
+            showPageSize
+          />
+        </CardBody>
+      </Card>
+
+      {/* ========================================
+          SECTION: Tabs
+          ======================================== */}
+      <Card variant="default" padding="md" style={{ marginBottom: '2rem' }}>
+        <CardHeader>
+          <h3 style={{ fontSize: 'var(--font-size-lg, 18px)', fontWeight: 600 }}>
+            📑 {isRTL ? 'علامات التبويب' : 'Tabs'}
+          </h3>
+          <Badge>{isRTL ? 'ثلاثة أنماط' : 'Three Variants'}</Badge>
+        </CardHeader>
+        <CardBody>
+          {/* ===== Default Tabs ===== */}
+          <h4 style={{ fontSize: 'var(--font-size-md, 16px)', marginBottom: '0.5rem' }}>
+            {isRTL ? 'النمط الافتراضي' : 'Default Variant'}
+          </h4>
+          <Tabs defaultValue="tab1" variant="default">
+            <TabList>
+              <TabTrigger value="tab1" icon={<User size={16} />}>
+                {isRTL ? 'الملف الشخصي' : 'Profile'}
+              </TabTrigger>
+              <TabTrigger value="tab2" icon={<Settings size={16} />}>
+                {isRTL ? 'الإعدادات' : 'Settings'}
+              </TabTrigger>
+              <TabTrigger value="tab3" icon={<FileText size={16} />} disabled>
+                {isRTL ? 'مقفل' : 'Disabled'}
+              </TabTrigger>
+            </TabList>
+            <TabPanel value="tab1">
+              <p style={{ padding: '1rem 0' }}>
+                {isRTL ? 'محتوى الملف الشخصي' : 'Profile content goes here'}
+              </p>
+            </TabPanel>
+            <TabPanel value="tab2">
+              <p style={{ padding: '1rem 0' }}>
+                {isRTL ? 'محتوى الإعدادات' : 'Settings content goes here'}
+              </p>
+            </TabPanel>
+            <TabPanel value="tab3">
+              <p style={{ padding: '1rem 0' }}>
+                {isRTL ? 'هذا التبويب معطل' : 'This tab is disabled'}
+              </p>
+            </TabPanel>
+          </Tabs>
+
+          {/* ===== Pills Tabs ===== */}
+          <h4 style={{ fontSize: 'var(--font-size-md, 16px)', marginTop: '2rem', marginBottom: '0.5rem' }}>
+            {isRTL ? 'نمط الحبوب' : 'Pills Variant'}
+          </h4>
+          <Tabs defaultValue="tab1" variant="pills">
+            <TabList>
+              <TabTrigger value="tab1">{isRTL ? 'التبويب 1' : 'Tab 1'}</TabTrigger>
+              <TabTrigger value="tab2">{isRTL ? 'التبويب 2' : 'Tab 2'}</TabTrigger>
+              <TabTrigger value="tab3">{isRTL ? 'التبويب 3' : 'Tab 3'}</TabTrigger>
+            </TabList>
+            <TabPanel value="tab1">
+              <p style={{ padding: '1rem 0' }}>{isRTL ? 'محتوى التبويب 1' : 'Tab 1 content'}</p>
+            </TabPanel>
+            <TabPanel value="tab2">
+              <p style={{ padding: '1rem 0' }}>{isRTL ? 'محتوى التبويب 2' : 'Tab 2 content'}</p>
+            </TabPanel>
+            <TabPanel value="tab3">
+              <p style={{ padding: '1rem 0' }}>{isRTL ? 'محتوى التبويب 3' : 'Tab 3 content'}</p>
+            </TabPanel>
+          </Tabs>
+
+          {/* ===== Underline Tabs ===== */}
+          <h4 style={{ fontSize: 'var(--font-size-md, 16px)', marginTop: '2rem', marginBottom: '0.5rem' }}>
+            {isRTL ? 'نمط التسطير' : 'Underline Variant'}
+          </h4>
+          <Tabs defaultValue="tab1" variant="underline">
+            <TabList>
+              <TabTrigger value="tab1">{isRTL ? 'التبويب 1' : 'Tab 1'}</TabTrigger>
+              <TabTrigger value="tab2">{isRTL ? 'التبويب 2' : 'Tab 2'}</TabTrigger>
+              <TabTrigger value="tab3">{isRTL ? 'التبويب 3' : 'Tab 3'}</TabTrigger>
+            </TabList>
+            <TabPanel value="tab1">
+              <p style={{ padding: '1rem 0' }}>{isRTL ? 'محتوى التبويب 1' : 'Tab 1 content'}</p>
+            </TabPanel>
+            <TabPanel value="tab2">
+              <p style={{ padding: '1rem 0' }}>{isRTL ? 'محتوى التبويب 2' : 'Tab 2 content'}</p>
+            </TabPanel>
+            <TabPanel value="tab3">
+              <p style={{ padding: '1rem 0' }}>{isRTL ? 'محتوى التبويب 3' : 'Tab 3 content'}</p>
+            </TabPanel>
+          </Tabs>
+        </CardBody>
+      </Card>
+
+      {/* ========================================
+          SECTION: Form Wizard
+          ======================================== */}
+      <Card variant="default" padding="md" style={{ marginBottom: '2rem' }}>
+        <CardHeader>
+          <h3 style={{ fontSize: 'var(--font-size-lg, 18px)', fontWeight: 600 }}>
+            🧙 {isRTL ? 'معالج النماذج' : 'Form Wizard'}
+          </h3>
+          <Badge>{isRTL ? 'ثلاث خطوات' : 'Three Steps'}</Badge>
+        </CardHeader>
+        <CardBody>
+          <FormWizard
+            steps={[
+              {
+                id: 'step1',
+                title: isRTL ? 'المعلومات الشخصية' : 'Personal Info',
+                description: isRTL ? 'أدخل معلوماتك الأساسية' : 'Enter your basic information',
+                content: (
+                  <FormStep>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                      <Input
+                        label={isRTL ? 'الاسم الأول' : 'First Name'}
+                        placeholder={isRTL ? 'أدخل اسمك الأول' : 'Enter your first name'}
+                      />
+                      <Input
+                        label={isRTL ? 'الاسم الأخير' : 'Last Name'}
+                        placeholder={isRTL ? 'أدخل اسمك الأخير' : 'Enter your last name'}
+                      />
+                      <Input
+                        label={isRTL ? 'البريد الإلكتروني' : 'Email'}
+                        placeholder="example@email.com"
+                        type="email"
+                      />
+                      <Input
+                        label={isRTL ? 'رقم الهاتف' : 'Phone'}
+                        placeholder={isRTL ? 'أدخل رقم الهاتف' : 'Enter phone number'}
+                      />
+                    </div>
+                  </FormStep>
+                ),
+              },
+              {
+                id: 'step2',
+                title: isRTL ? 'تفاصيل الحساب' : 'Account Details',
+                description: isRTL ? 'إعدادات حسابك' : 'Your account settings',
+                content: (
+                  <FormStep>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                      <Input
+                        label={isRTL ? 'اسم المستخدم' : 'Username'}
+                        placeholder={isRTL ? 'اختر اسم مستخدم' : 'Choose a username'}
+                      />
+                      <Input
+                        label={isRTL ? 'كلمة المرور' : 'Password'}
+                        placeholder={isRTL ? 'أدخل كلمة المرور' : 'Enter password'}
+                        type="password"
+                      />
+                      <Input
+                        label={isRTL ? 'تأكيد كلمة المرور' : 'Confirm Password'}
+                        placeholder={isRTL ? 'أعد إدخال كلمة المرور' : 'Re-enter password'}
+                        type="password"
+                      />
+                      <Select
+                        label={isRTL ? 'نوع الحساب' : 'Account Type'}
+                        options={[
+                          { value: 'personal', label: isRTL ? 'شخصي' : 'Personal' },
+                          { value: 'business', label: isRTL ? 'عمل' : 'Business' },
+                          { value: 'enterprise', label: isRTL ? 'مؤسسة' : 'Enterprise' },
+                        ]}
+                        placeholder={isRTL ? 'اختر نوع الحساب' : 'Select account type'}
+                      />
+                    </div>
+                  </FormStep>
+                ),
+              },
+              {
+                id: 'step3',
+                title: isRTL ? 'التأكيد' : 'Confirmation',
+                description: isRTL ? 'راجع معلوماتك' : 'Review your information',
+                content: (
+                  <FormStep>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                      <Alert variant="success" icon={<Check size={20} />}>
+                        {isRTL ? 'جميع البيانات صحيحة. اضغط على إكمال للتأكيد.' : 'All data is correct. Click Complete to confirm.'}
+                      </Alert>
+                      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                        <Badge variant="primary">{isRTL ? 'جاهز للتأكيد' : 'Ready to confirm'}</Badge>
+                        <Badge variant="success" dot>{isRTL ? 'مكتمل' : 'Complete'}</Badge>
+                      </div>
+                    </div>
+                  </FormStep>
+                ),
+              },
+            ]}
+            currentStep={wizardStep}
+            onStepChange={setWizardStep}
+            onComplete={() => {
+              toast.toast({
+                title: isRTL ? 'تم الإكمال!' : 'Complete!',
+                message: isRTL ? 'تم إكمال جميع الخطوات بنجاح' : 'All steps completed successfully',
+                variant: 'success',
+              });
+            }}
+            showStepNumbers
+            orientation="horizontal"
+          />
+        </CardBody>
+      </Card>
 
       {/* ========================================
           SECTION: Buttons
@@ -457,8 +822,7 @@ const PlaygroundPage = () => {
       </Card>
 
       {/* ========================================
-          SECTION: Toast
-          ======================================== */}
+          SECTION: Toast          ======================================== */}
       <Card variant="default" padding="md" style={{ marginBottom: '2rem' }}>
         <CardHeader>
           <h3 style={{ fontSize: 'var(--font-size-lg, 18px)', fontWeight: 600 }}>
