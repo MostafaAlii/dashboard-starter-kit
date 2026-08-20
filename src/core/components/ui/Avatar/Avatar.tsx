@@ -69,6 +69,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     return (
       <div
         ref={ref}
+        dir={document.documentElement.getAttribute('dir') || 'ltr'}
         style={{
           position: 'relative',
           display: 'inline-flex',

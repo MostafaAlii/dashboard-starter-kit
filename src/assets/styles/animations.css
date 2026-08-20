@@ -338,6 +338,37 @@
   }
 }
 
+/* ===== Dropdown Animation ===== */
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes dropdownSlideOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(-8px);
+  }
+}
+
+.animate-dropdown-in {
+  animation: dropdownSlideIn 200ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-dropdown-out {
+  animation: dropdownSlideOut 150ms ease forwards;
+}
+
 /* ===== Utility Animation Classes ===== */
 .animate-fade-in {
   animation: fadeIn 0.3s ease forwards;

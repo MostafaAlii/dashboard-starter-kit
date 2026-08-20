@@ -39,7 +39,8 @@ export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(
           transition: 'background 0.15s ease, color 0.15s ease',
           border: 'none',
           outline: 'none',
-          textAlign: 'left',
+          textAlign: 'var(--start, left)' as any,
+          width: '100%',
         }}
         className={className}
         onMouseEnter={(e) => {

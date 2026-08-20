@@ -19,8 +19,10 @@ export const DropdownHeader = forwardRef<HTMLDivElement, DropdownHeaderProps>(
           color: 'var(--color-text-muted, #94a3b8)',
           textTransform: 'uppercase',
           letterSpacing: '0.05em',
+          textAlign: 'var(--start, left)' as any,
         }}
         className={className}
+        role="menuitem"
       >
         {children}
       </div>

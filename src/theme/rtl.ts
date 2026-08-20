@@ -5,24 +5,17 @@
  */
 
 export const rtlSupport = {
-  // RTL-safe properties mapping
-  properties: {
-    marginLeft: "marginRight",
-    marginRight: "marginLeft",
-    paddingLeft: "paddingRight",
-    paddingRight: "paddingLeft",
-    borderLeft: "borderRight",
-    borderRight: "borderLeft",
-    borderLeftWidth: "borderRightWidth",
-    borderRightWidth: "borderLeftWidth",
-    borderLeftColor: "borderRightColor",
-    borderRightColor: "borderLeftColor",
-    left: "right",
-    right: "left",
-    textAlign: "textAlign",
+  /**
+   * Direction constants
+   */
+  direction: {
+    LTR: "ltr",
+    RTL: "rtl",
   },
 
-  // Text alignment mapping
+  /**
+   * Text alignment
+   */
   textAlign: {
     left: "left",
     right: "right",
@@ -30,25 +23,52 @@ export const rtlSupport = {
     end: "end",
   },
 
-  // Direction constants
-  direction: {
-    LTR: "ltr",
-    RTL: "rtl",
+  /**
+   * RTL-safe property mappings
+   */
+  properties: {
+    marginLeft: "marginRight",
+    marginRight: "marginLeft",
+
+    paddingLeft: "paddingRight",
+    paddingRight: "paddingLeft",
+
+    borderLeft: "borderRight",
+    borderRight: "borderLeft",
+
+    borderLeftWidth: "borderRightWidth",
+    borderRightWidth: "borderLeftWidth",
+
+    borderLeftColor: "borderRightColor",
+    borderRightColor: "borderLeftColor",
+
+    left: "right",
+    right: "left",
+
+    textAlign: "textAlign",
   },
 
-  // CSS logical properties mapping
+  /**
+   * CSS logical properties
+   */
   logicalProperties: {
     marginInlineStart: "marginLeft",
     marginInlineEnd: "marginRight",
+
     paddingInlineStart: "paddingLeft",
     paddingInlineEnd: "paddingRight",
+
     borderInlineStart: "borderLeft",
     borderInlineEnd: "borderRight",
+
     insetInlineStart: "left",
     insetInlineEnd: "right",
   },
 } as const;
 
 export type RTLProperty = keyof typeof rtlSupport.properties;
-export type RTLDirection = keyof typeof rtlSupport.direction;
+
+export type RTLDirection =
+  (typeof rtlSupport.direction)[keyof typeof rtlSupport.direction];
+
 export type RTLTextAlign = keyof typeof rtlSupport.textAlign;

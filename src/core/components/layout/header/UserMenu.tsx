@@ -1,15 +1,32 @@
+/*
+ * ========================================
+ * USER MENU
+ * ========================================
+ *
+ * Direction is controlled by
+ * DirectionProvider.
+ */
+
 import {
   ChevronDown,
+  HelpCircle,
   LogOut,
   Settings,
+  UserPlus,
   UserRound,
 } from "lucide-react";
 
 import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+  Dropdown,
+  DropdownHeader,
+  DropdownItem,
+  DropdownSeparator,
+} from "../../ui/Dropdown";
+
+import { Avatar } from "../../ui/Avatar";
+
+import { useDirection } from "../../../providers/DirectionProvider";
+import { useState } from "react";
 
 interface UserMenuProps {
   name?: string;
@@ -21,6 +38,8 @@ interface UserMenuProps {
   onProfile?: () => void;
   onSettings?: () => void;
   onLogout?: () => void;
+  onHelp?: () => void;
+  onSwitchAccount?: () => void;
 }
 
 const UserMenu = ({
@@ -29,573 +48,342 @@ const UserMenu = ({
   role = "Administrator",
   initials = "MA",
   avatar = null,
+
   onProfile,
   onSettings,
   onLogout,
+  onHelp,
+  onSwitchAccount,
 }: UserMenuProps) => {
+  const { direction } = useDirection();
   const [isOpen, setIsOpen] = useState(false);
 
-  const menuRef = useRef<HTMLDivElement>(null);
+  return (
+    <Dropdown
+      trigger={
+        <button
+          type="button"
+          aria-label="Open user menu"
+          aria-haspopup="menu"
+          style={{
+            display: "flex",
 
-  /**
-   * Close menu when clicking outside
-   */
-  useEffect(() => {
-    const handleClickOutside = (
-      event: MouseEvent
-    ) => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(
-          event.target as Node
-        )
-      ) {
-        setIsOpen(false);
-      }
-    };
+            alignItems: "center",
 
-    document.addEventListener(
-      "mousedown",
-      handleClickOutside
-    );
+            gap: "0.5rem",
 
-    return () => {
-      document.removeEventListener(
-        "mousedown",
-        handleClickOutside
-      );
-    };
-  }, []);
+            padding: "0.25rem 0.5rem",
 
-  /**
-   * Close menu with Escape
-   */
-  useEffect(() => {
-    const handleKeyDown = (
-      event: KeyboardEvent
-    ) => {
-      if (event.key === "Escape") {
-        setIsOpen(false);
-      }
-    };
+            border: "none",
 
-    document.addEventListener(
-      "keydown",
-      handleKeyDown
-    );
+            background: "transparent",
 
-    return () => {
-      document.removeEventListener(
-        "keydown",
-        handleKeyDown
-      );
-    };
-  }, []);
+            color:
+              "var(--color-text)",
 
-  /**
-   * Menu handlers
-   */
+            cursor: "pointer",
 
-  const handleProfile = () => {
-    setIsOpen(false);
-    onProfile?.();
-  };
+            borderRadius:
+              "var(--radius-md)",
 
-  const handleSettings = () => {
-    setIsOpen(false);
-    onSettings?.();
-  };
+            transition:
+              "background-color 0.2s ease",
 
-  const handleLogout = () => {
-    setIsOpen(false);
-    onLogout?.();
-  };
-
-  /**
-   * Avatar component
-   */
-
-  const Avatar = ({
-    size = 40,
-  }: {
-    size?: number;
-  }) => {
-    return (
-      <div
-        style={{
-          width: `${size}px`,
-          height: `${size}px`,
-
-          display: "grid",
-          placeItems: "center",
-
-          flexShrink: 0,
-
-          overflow: "hidden",
-
-          borderRadius: "50%",
-
-          background:
-            "var(--color-primary-light)",
-
-          color:
-            "var(--color-primary)",
-
-          fontWeight: 700,
-
-          fontSize:
-            size >= 40
-              ? "0.875rem"
-              : "0.75rem",
-        }}
-      >
-        {avatar ? (
-          <img
-            src={avatar}
+            direction,
+          }}
+          onMouseEnter={(event) => {
+            event.currentTarget.style.background =
+              "var(--color-background-secondary, #f1f5f9)";
+          }}
+          onMouseLeave={(event) => {
+            event.currentTarget.style.background =
+              "transparent";
+          }}
+        >
+          {/* Avatar */}
+          <Avatar
+            src={avatar || undefined}
             alt={name}
+            fallback={initials}
+            size="md"
+            status="online"
+          />
+
+          {/* User Info */}
+          <div
             style={{
-              width: "100%",
-              height: "100%",
+              display: "flex",
 
-              objectFit: "cover",
+              flexDirection:
+                "column",
 
-              display: "block",
+              alignItems:
+                "flex-start",
+
+              minWidth: 0,
+
+              textAlign: "start",
+            }}
+          >
+            <span
+              style={{
+                maxWidth: "120px",
+
+                fontSize: "0.8rem",
+
+                fontWeight: 600,
+
+                color:
+                  "var(--color-text)",
+
+                whiteSpace:
+                  "nowrap",
+
+                overflow:
+                  "hidden",
+
+                textOverflow:
+                  "ellipsis",
+              }}
+            >
+              {name}
+            </span>
+
+            <span
+              style={{
+                maxWidth: "120px",
+
+                marginBlockStart:
+                  "0.1rem",
+
+                fontSize: "0.7rem",
+
+                color:
+                  "var(--color-text-secondary)",
+
+                whiteSpace:
+                  "nowrap",
+
+                overflow:
+                  "hidden",
+
+                textOverflow:
+                  "ellipsis",
+              }}
+            >
+              {role}
+            </span>
+          </div>
+
+          {/* ========================================
+              Chevron Icon with Rotation
+              ======================================== */}
+          <ChevronDown
+            size={16}
+            style={{
+              flexShrink: 0,
+
+              transition:
+                "transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+
+              transform: isOpen
+                ? "rotate(180deg)"
+                : "rotate(0deg)",
             }}
           />
-        ) : (
-          initials
-        )}
-      </div>
-    );
-  };
+        </button>
+      }
 
-  return (
-    <div
-      ref={menuRef}
-      style={{
-        position: "relative",
-      }}
+      /*
+       * bottom-end is logical.
+       *
+       * LTR: bottom-end = right
+       * RTL: bottom-end = left
+       */
+
+      position="bottom-end"
+
+      size="md"
+
+      closeOnClickOutside
+
+      closeOnEscape
+
+      closeOnItemClick
+
+      open={isOpen}
+
+      onOpenChange={setIsOpen}
     >
-      {/* ================================
-          User Trigger
-          ================================ */}
-
-      <button
-        type="button"
-        onClick={() =>
-          setIsOpen(
-            (current) => !current
-          )
-        }
-        aria-label="Open user menu"
-        aria-haspopup="menu"
-        aria-expanded={isOpen}
-        style={{
-          display: "flex",
-          alignItems: "center",
-
-          gap: "0.5rem",
-
-          padding: "0.25rem",
-
-          border: "none",
-
-          background: "transparent",
-
-          color:
-            "var(--color-text)",
-
-          cursor: "pointer",
-
-          borderRadius:
-            "var(--radius-md)",
-
-          transition:
-            "background-color 0.2s ease",
-        }}
-      >
-        {/* Avatar */}
-
-        <Avatar />
-
-        {/* User Info */}
-
+      {/* User Header */}
+      <DropdownHeader>
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
 
-            alignItems: "flex-start",
+            alignItems: "center",
 
-            minWidth: 0,
+            gap: "0.75rem",
 
-            textAlign: "start",
+            padding:
+              "0.5rem 0.25rem",
+
+            direction,
           }}
         >
-          <span
-            style={{
-              maxWidth: "120px",
-
-              fontSize: "0.8rem",
-
-              fontWeight: 600,
-
-              color:
-                "var(--color-text)",
-
-              whiteSpace: "nowrap",
-
-              overflow: "hidden",
-
-              textOverflow: "ellipsis",
-            }}
-          >
-            {name}
-          </span>
-
-          <span
-            style={{
-              maxWidth: "120px",
-
-              marginBlockStart:
-                "0.1rem",
-
-              fontSize: "0.7rem",
-
-              color:
-                "var(--color-text-secondary)",
-
-              whiteSpace: "nowrap",
-
-              overflow: "hidden",
-
-              textOverflow: "ellipsis",
-            }}
-          >
-            {role}
-          </span>
-        </div>
-
-        {/* Arrow */}
-
-        <ChevronDown
-          size={16}
-          style={{
-            flexShrink: 0,
-
-            transform: isOpen
-              ? "rotate(180deg)"
-              : "rotate(0deg)",
-
-            transition:
-              "transform 0.2s ease",
-          }}
-        />
-      </button>
-
-      {/* ================================
-          Dropdown
-          ================================ */}
-
-      {isOpen && (
-        <div
-          role="menu"
-          style={{
-            position: "absolute",
-
-            insetBlockStart:
-              "calc(100% + 0.5rem)",
-
-            insetInlineEnd: 0,
-
-            width: "280px",
-
-            padding: "0.5rem",
-
-            background:
-              "var(--color-card)",
-
-            border:
-              "1px solid var(--color-border)",
-
-            borderRadius:
-              "var(--radius-lg)",
-
-            boxShadow:
-              "var(--shadow-lg)",
-
-            zIndex: 100,
-          }}
-        >
-          {/* ================================
-              User Header
-              ================================ */}
+          <Avatar
+            src={avatar || undefined}
+            alt={name}
+            fallback={initials}
+            size="lg"
+            status="online"
+          />
 
           <div
             style={{
-              display: "flex",
+              minWidth: 0,
 
-              alignItems: "center",
-
-              gap: "0.75rem",
-
-              padding: "0.75rem",
-
-              marginBlockEnd:
-                "0.5rem",
-
-              borderBlockEnd:
-                "1px solid var(--color-border)",
+              flex: 1,
             }}
           >
-            <Avatar size={48} />
+            <div
+              style={{
+                fontSize:
+                  "0.875rem",
+
+                fontWeight: 600,
+
+                color:
+                  "var(--color-text)",
+
+                whiteSpace:
+                  "nowrap",
+
+                overflow:
+                  "hidden",
+
+                textOverflow:
+                  "ellipsis",
+              }}
+            >
+              {name}
+            </div>
 
             <div
               style={{
-                minWidth: 0,
+                marginBlockStart:
+                  "0.2rem",
+
+                fontSize:
+                  "0.75rem",
+
+                color:
+                  "var(--color-text-secondary)",
+
+                whiteSpace:
+                  "nowrap",
+
+                overflow:
+                  "hidden",
+
+                textOverflow:
+                  "ellipsis",
               }}
             >
-              <div
-                style={{
-                  fontSize: "0.875rem",
-
-                  fontWeight: 600,
-
-                  color:
-                    "var(--color-text)",
-
-                  whiteSpace:
-                    "nowrap",
-
-                  overflow:
-                    "hidden",
-
-                  textOverflow:
-                    "ellipsis",
-                }}
-              >
-                {name}
-              </div>
-
-              <div
-                style={{
-                  marginBlockStart:
-                    "0.2rem",
-
-                  fontSize: "0.75rem",
-
-                  color:
-                    "var(--color-text-secondary)",
-
-                  whiteSpace:
-                    "nowrap",
-
-                  overflow:
-                    "hidden",
-
-                  textOverflow:
-                    "ellipsis",
-                }}
-              >
-                {email}
-              </div>
-
-              <span
-                style={{
-                  display:
-                    "inline-block",
-
-                  marginBlockStart:
-                    "0.4rem",
-
-                  padding:
-                    "0.15rem 0.5rem",
-
-                  borderRadius:
-                    "var(--radius-full)",
-
-                  background:
-                    "var(--color-primary-light)",
-
-                  color:
-                    "var(--color-primary)",
-
-                  fontSize:
-                    "0.65rem",
-
-                  fontWeight: 600,
-                }}
-              >
-                {role}
-              </span>
+              {email}
             </div>
+
+            <span
+              style={{
+                display:
+                  "inline-block",
+
+                marginBlockStart:
+                  "0.3rem",
+
+                padding:
+                  "0.15rem 0.5rem",
+
+                borderRadius:
+                  "var(--radius-full)",
+
+                background:
+                  "var(--color-primary-light)",
+
+                color:
+                  "var(--color-primary)",
+
+                fontSize:
+                  "0.6rem",
+
+                fontWeight: 600,
+
+                textTransform:
+                  "uppercase",
+
+                letterSpacing:
+                  "0.05em",
+              }}
+            >
+              {role}
+            </span>
           </div>
-
-          {/* ================================
-              Profile
-              ================================ */}
-
-          <button
-            type="button"
-            role="menuitem"
-            onClick={
-              handleProfile
-            }
-            style={{
-              width: "100%",
-
-              display: "flex",
-
-              alignItems: "center",
-
-              gap: "0.75rem",
-
-              padding:
-                "0.7rem 0.75rem",
-
-              border: "none",
-
-              background:
-                "transparent",
-
-              color:
-                "var(--color-text)",
-
-              cursor: "pointer",
-
-              borderRadius:
-                "var(--radius-md)",
-
-              textAlign: "start",
-
-              fontSize:
-                "0.875rem",
-
-              transition:
-                "background-color 0.2s ease",
-            }}
-          >
-            <UserRound size={18} />
-
-            <span>
-              Profile
-            </span>
-          </button>
-
-          {/* ================================
-              Settings
-              ================================ */}
-
-          <button
-            type="button"
-            role="menuitem"
-            onClick={
-              handleSettings
-            }
-            style={{
-              width: "100%",
-
-              display: "flex",
-
-              alignItems: "center",
-
-              gap: "0.75rem",
-
-              padding:
-                "0.7rem 0.75rem",
-
-              border: "none",
-
-              background:
-                "transparent",
-
-              color:
-                "var(--color-text)",
-
-              cursor: "pointer",
-
-              borderRadius:
-                "var(--radius-md)",
-
-              textAlign: "start",
-
-              fontSize:
-                "0.875rem",
-
-              transition:
-                "background-color 0.2s ease",
-            }}
-          >
-            <Settings size={18} />
-
-            <span>
-              Settings
-            </span>
-          </button>
-
-          {/* ================================
-              Logout
-              ================================ */}
-
-          <div
-            style={{
-              marginBlock:
-                "0.35rem",
-
-              borderBlockStart:
-                "1px solid var(--color-border)",
-            }}
-          />
-
-          <button
-            type="button"
-            role="menuitem"
-            onClick={
-              handleLogout
-            }
-            style={{
-              width: "100%",
-
-              display: "flex",
-
-              alignItems: "center",
-
-              gap: "0.75rem",
-
-              padding:
-                "0.7rem 0.75rem",
-
-              border: "none",
-
-              background:
-                "transparent",
-
-              color:
-                "var(--color-danger)",
-
-              cursor: "pointer",
-
-              borderRadius:
-                "var(--radius-md)",
-
-              textAlign: "start",
-
-              fontSize:
-                "0.875rem",
-
-              transition:
-                "background-color 0.2s ease",
-            }}
-          >
-            <LogOut size={18} />
-
-            <span>
-              Logout
-            </span>
-          </button>
         </div>
+      </DropdownHeader>
+
+      <DropdownSeparator />
+
+      {/* Profile */}
+      <DropdownItem
+        icon={<UserRound size={18} />}
+        onClick={onProfile}
+      >
+        Profile
+      </DropdownItem>
+
+      {/* Settings */}
+      <DropdownItem
+        icon={<Settings size={18} />}
+        onClick={onSettings}
+      >
+        Settings
+      </DropdownItem>
+
+      {/* Help */}
+      {onHelp && (
+        <DropdownItem
+          icon={<HelpCircle size={18} />}
+          onClick={onHelp}
+        >
+          Help & Support
+        </DropdownItem>
       )}
-    </div>
+
+      {/* Switch Account */}
+      {onSwitchAccount && (
+        <>
+          <DropdownSeparator />
+
+          <DropdownItem
+            icon={<UserPlus size={18} />}
+            onClick={onSwitchAccount}
+          >
+            Switch Account
+          </DropdownItem>
+        </>
+      )}
+
+      <DropdownSeparator />
+
+      {/* Logout */}
+      <DropdownItem
+        icon={<LogOut size={18} />}
+        danger
+        onClick={onLogout}
+      >
+        Logout
+      </DropdownItem>
+    </Dropdown>
   );
 };
 
