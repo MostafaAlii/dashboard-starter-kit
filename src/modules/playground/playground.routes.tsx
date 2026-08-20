@@ -1,17 +1,17 @@
 import type { RouteObject } from "react-router-dom";
 
 import DashboardLayout from "../../core/components/layout/DashboardLayout";
+import PlaygroundPage from "./pages/PlaygroundPage";
 
-import DashboardPage from "./pages/DashboardPage";
-const dashboardRoutes: RouteObject = {
-  path: "/",
+const playgroundRoutes: RouteObject = {
+  path: "/playground",
   element: <DashboardLayout />,
   children: [
     {
       index: true,
-      element: <DashboardPage />,
+      element: <PlaygroundPage />,
     },
   ],
 };
 
-export default dashboardRoutes;
+export default playgroundRoutes;

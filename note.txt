@@ -1,0 +1,96 @@
+مفيش مشكله هعمل push وبعد كدا نبدء بال Button و Input و Modal و Card و Badge و Alert و Toast
+انا عملت
+src/core/components/ui/
+├── Button/
+│   ├── Button.tsx
+│   ├── ButtonGroup.tsx
+│   ├── types.ts
+│   └── index.ts
+│
+├── Input/
+│   ├── Input.tsx
+│   ├── Textarea.tsx
+│   ├── Select.tsx
+│   ├── Checkbox.tsx
+│   ├── Radio.tsx
+│   ├── Switch.tsx
+│   └── index.ts
+├── Modal/
+│   ├── Modal.tsx
+│   ├── ModalHeader.tsx
+│   ├── ModalBody.tsx
+│   ├── ModalFooter.tsx
+│   └── index.ts
+├── Alert/
+│   ├── Alert.tsx
+│   ├── AlertTitle.tsx
+│   ├── AlertDescription.tsx
+│   └── index.ts
+│
+├── Toast/
+│   ├── Toast.tsx
+│   ├── ToastContainer.tsx
+│   └── index.ts
+├── Badge/
+│   ├── Badge.tsx
+│   └── index.ts
+│
+└── Card/
+    ├── Card.tsx
+    ├── CardHeader.tsx
+    ├── CardBody.tsx
+    ├── CardFooter.tsx
+    └── index.ts
+عملتهم ملفات و مجلدات فاضيه
+وكمان عندى ملف ال index.ts بالشكل ده
+/*
+ * ========================================
+ * UI COMPONENTS EXPORTS
+ * ========================================
+ */
+// Avatar
+export * from "./Avatar";
+// Dropdown
+export * from "./Dropdown";
+// Button
+export * from "./Button";
+// Input
+export * from "./Input";
+// Modal
+export * from "./Modal";
+// Alert
+export * from "./Alert";
+// Toast
+export * from "./Toast";
+// Badge
+export * from "./Badge";
+// Card
+export * from "./Card";
+انا بس مش عاوزك تنسى ان هنعتمد برده على ال LanguageProvider و ال DirectionProvider زى ما متفقين
+اعمل الكود كامل للملفات دى
+وده ال AppProvider الموجود دلوقتى عشان متنساش
+import type { ReactNode } from "react";
+
+import { ThemeProvider } from "./ThemeProvider";
+import { DirectionProvider } from "./DirectionProvider";
+import { LanguageProvider } from "./LanguageProvider";
+
+interface AppProvidersProps {
+  children: ReactNode;
+}
+
+export function AppProviders({
+  children,
+}: AppProvidersProps) {
+  return (
+    <ThemeProvider>
+      <DirectionProvider>
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
+      </DirectionProvider>
+    </ThemeProvider>
+  );
+}
+
+export default AppProviders;

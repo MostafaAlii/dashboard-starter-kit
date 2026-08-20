@@ -6,6 +6,7 @@ import {
   Users,
   Package,
   Settings,
+  FlaskConical,
 } from "lucide-react";
 
 import type { NavigationSection } from "../../types/navigation";
@@ -26,6 +27,12 @@ const navigation: NavigationSection[] = [
         label: "Dashboard",
         icon: LayoutDashboard,
         path: "/",
+      },
+      {
+        id: "playground",
+        label: "Playground",
+        icon: FlaskConical,
+        path: "/playground",
       },
       {
         id: "users",
