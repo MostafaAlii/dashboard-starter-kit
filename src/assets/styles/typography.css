@@ -1,89 +1,186 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+/*
+ * ========================================
+ * TYPOGRAPHY
+ * ========================================
+ */
 
+/* ===== Import Google Font ===== */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap');
+
+/* ===== Base Typography ===== */
 html {
-  font-family: var(--font-family-sans);
-  font-size: var(--font-size-md);
-  line-height: var(--line-height-normal);
+  font-family: var(--font-family-sans, 'Cairo', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-size: var(--font-size-md, 16px);
+  line-height: var(--line-height-normal, 1.5);
 }
 
+body {
+  font-family: var(--font-family-sans, 'Cairo', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-size: var(--font-size-md, 16px);
+  line-height: var(--line-height-normal, 1.5);
+  color: var(--color-text, #0f172a);
+}
+
+/* ===== Headings ===== */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: var(--line-height-tight, 1.25);
+  color: var(--color-text, #0f172a);
 }
 
 h1 {
-  font-size: var(--font-size-4xl);
+  font-size: var(--font-size-4xl, 36px);
 }
-
 h2 {
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-3xl, 30px);
 }
-
 h3 {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-2xl, 24px);
 }
-
 h4 {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-xl, 20px);
 }
-
 h5 {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-lg, 18px);
 }
-
 h6 {
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-md, 16px);
 }
 
+/* ===== Paragraph ===== */
+p {
+  color: var(--color-text-secondary, #475569);
+  line-height: var(--line-height-relaxed, 1.75);
+}
+
+/* ===== Links ===== */
+a {
+  color: var(--color-primary, #3b82f6);
+  text-decoration: none;
+  transition: color var(--transition-fast, 150ms ease);
+}
+
+a:hover {
+  color: var(--color-primary-hover, #2563eb);
+  text-decoration: underline;
+}
+
+/* ===== Utility Text Classes ===== */
 .text-xs {
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-xs, 12px);
 }
 .text-sm {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-sm, 14px);
 }
 .text-md {
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-md, 16px);
 }
 .text-lg {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-lg, 18px);
 }
 .text-xl {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-xl, 20px);
 }
 .text-2xl {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-2xl, 24px);
 }
 .text-3xl {
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-3xl, 30px);
+}
+.text-4xl {
+  font-size: var(--font-size-4xl, 36px);
+}
+.text-5xl {
+  font-size: var(--font-size-5xl, 48px);
 }
 
 .font-light {
-  font-weight: var(--font-weight-light);
+  font-weight: var(--font-weight-light, 300);
 }
 .font-normal {
-  font-weight: var(--font-weight-normal);
+  font-weight: var(--font-weight-normal, 400);
 }
 .font-medium {
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium, 500);
 }
 .font-semibold {
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold, 600);
 }
 .font-bold {
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-bold, 700);
+}
+.font-extrabold {
+  font-weight: var(--font-weight-extrabold, 800);
 }
 
 .text-center {
   text-align: center;
 }
 .text-start {
-  text-align: var(--start);
+  text-align: var(--start, left);
 }
 .text-end {
-  text-align: var(--end);
+  text-align: var(--end, right);
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-justify {
+  text-align: justify;
+}
+
+.text-muted {
+  color: var(--color-text-muted, #94a3b8);
+}
+.text-secondary {
+  color: var(--color-text-secondary, #475569);
+}
+.text-primary {
+  color: var(--color-primary, #3b82f6);
+}
+.text-success {
+  color: var(--color-success, #22c55e);
+}
+.text-warning {
+  color: var(--color-warning, #eab308);
+}
+.text-error {
+  color: var(--color-error, #ef4444);
+}
+.text-white {
+  color: #ffffff;
+}
+
+/* ===== Truncate ===== */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

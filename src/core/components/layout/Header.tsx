@@ -1,126 +1,183 @@
-import {
-  Menu,
-  Sun,
-  Moon,
-} from "lucide-react";
+import { Menu, Sun, Moon } from "lucide-react";
 
 import { useTheme } from "../../providers/ThemeProvider";
 import { useDirection } from "../../providers/DirectionProvider";
-
+import UserMenu from "./header/UserMenu";
 interface HeaderProps {
   onSidebarToggle?: () => void;
+  title?: string;
+  subtitle?: string;
 }
 
 const Header = ({
   onSidebarToggle,
+  title = "Dashboard",
+  subtitle = "Overview",
 }: HeaderProps) => {
-  const {
-    resolvedTheme,
-    toggleTheme,
-  } = useTheme();
+  const { resolvedTheme, toggleTheme } = useTheme();
 
-  const {
-    direction,
-    toggleDirection,
-  } = useDirection();
+  const { direction, toggleDirection } = useDirection();
 
   return (
     <header
       dir={direction}
       style={{
         height: "72px",
-        padding: "0 1.5rem",
+        paddingInline: "1.5rem",
+
         display: "flex",
         alignItems: "center",
-        justifyContent:
-          "space-between",
-        background:
-          "var(--color-card)",
-        borderBottom:
-          "1px solid var(--color-border)",
+        justifyContent: "space-between",
+
+        background: "var(--color-card)",
+
+        borderBlockEnd: "1px solid var(--color-border)",
+
         position: "sticky",
-        top: 0,
+        insetBlockStart: 0,
+
         zIndex: 10,
+
+        flexShrink: 0,
       }}
     >
-      {/* Left */}
+      {/* ================================
+          Header Start
+          ================================ */}
 
       <div
         style={{
           display: "flex",
           alignItems: "center",
           gap: "1rem",
+
+          minWidth: 0,
         }}
       >
+        {/* Sidebar Toggle */}
+
         <button
           type="button"
           onClick={onSidebarToggle}
           aria-label="Toggle sidebar"
+          title="Toggle sidebar"
           style={{
             width: "40px",
             height: "40px",
+
             display: "grid",
             placeItems: "center",
+
+            flexShrink: 0,
+
             border: "none",
+
             background: "transparent",
-            color:
-              "var(--color-text)",
+            color: "var(--color-text)",
+
             cursor: "pointer",
-            borderRadius:
-              "var(--radius-md)",
+
+            borderRadius: "var(--radius-md)",
+
+            transition:
+              "background-color 0.2s ease, color 0.2s ease",
           }}
         >
           <Menu size={20} />
         </button>
 
-        <div>
+        {/* Page Title */}
+
+        <div
+          style={{
+            minWidth: 0,
+          }}
+        >
           <h2
             style={{
               margin: 0,
+
               fontSize: "1.1rem",
+              fontWeight: 700,
+
+              color: "var(--color-text)",
+
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
-            Dashboard
+            {title}
           </h2>
 
-          <span
-            style={{
-              fontSize: "0.75rem",
-              color:
-                "var(--color-text-secondary)",
-            }}
-          >
-            Overview
-          </span>
+          {subtitle && (
+            <span
+              style={{
+                display: "block",
+
+                marginBlockStart: "0.15rem",
+
+                fontSize: "0.75rem",
+
+                color: "var(--color-text-secondary)",
+
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {subtitle}
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Right */}
+      {/* ================================
+          Header End
+          ================================ */}
 
       <div
         style={{
           display: "flex",
           alignItems: "center",
           gap: "0.5rem",
+
+          flexShrink: 0,
         }}
       >
+        {/* Theme Toggle */}
+
         <button
           type="button"
           onClick={toggleTheme}
-          title="Toggle theme"
+          aria-label={
+            resolvedTheme === "dark"
+              ? "Switch to light theme"
+              : "Switch to dark theme"
+          }
+          title={
+            resolvedTheme === "dark"
+              ? "Switch to light theme"
+              : "Switch to dark theme"
+          }
           style={{
             width: "40px",
             height: "40px",
+
             display: "grid",
             placeItems: "center",
+
             border: "none",
-            background:
-              "var(--color-background)",
-            color:
-              "var(--color-text)",
+
+            background: "var(--color-background)",
+            color: "var(--color-text)",
+
             cursor: "pointer",
-            borderRadius:
-              "var(--radius-md)",
+
+            borderRadius: "var(--radius-md)",
+
+            transition:
+              "background-color 0.2s ease, color 0.2s ease",
           }}
         >
           {resolvedTheme === "dark" ? (
@@ -130,45 +187,51 @@ const Header = ({
           )}
         </button>
 
+        {/* Direction Toggle */}
+
         <button
           type="button"
           onClick={toggleDirection}
-          title="Toggle direction"
+          aria-label={
+            direction === "ltr"
+              ? "Switch to right-to-left"
+              : "Switch to left-to-right"
+          }
+          title={
+            direction === "ltr"
+              ? "Switch to RTL"
+              : "Switch to LTR"
+          }
           style={{
             minWidth: "40px",
             height: "40px",
-            padding: "0 0.5rem",
-            border: "none",
-            background:
-              "var(--color-background)",
-            color:
-              "var(--color-text)",
-            cursor: "pointer",
-            borderRadius:
-              "var(--radius-md)",
-          }}
-        >
-          {direction === "ltr"
-            ? "RTL"
-            : "LTR"}
-        </button>
 
-        <div
-          style={{
-            width: "40px",
-            height: "40px",
-            borderRadius: "50%",
+            paddingInline: "0.5rem",
+
             display: "grid",
             placeItems: "center",
-            background:
-              "var(--color-primary-light)",
-            color:
-              "var(--color-primary)",
-            fontWeight: 700,
+
+            border: "none",
+
+            background: "var(--color-background)",
+            color: "var(--color-text)",
+
+            cursor: "pointer",
+
+            borderRadius: "var(--radius-md)",
+
+            fontSize: "0.75rem",
+            fontWeight: 600,
+
+            transition:
+              "background-color 0.2s ease, color 0.2s ease",
           }}
         >
-          MA
-        </div>
+          {direction === "ltr" ? "RTL" : "LTR"}
+        </button>
+
+        {/* User Avatar */}
+        <UserMenu />
       </div>
     </header>
   );
