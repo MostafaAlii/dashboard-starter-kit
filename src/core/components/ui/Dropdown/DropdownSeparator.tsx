@@ -18,7 +18,6 @@ export const DropdownSeparator = forwardRef<HTMLHRElement, DropdownSeparatorProp
           borderTop: '1px solid var(--color-border, #e2e8f0)',
         }}
         className={className}
-        role="separator"
       />
     );
   }

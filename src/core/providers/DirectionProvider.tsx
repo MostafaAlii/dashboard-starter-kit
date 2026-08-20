@@ -10,6 +10,7 @@ import {
 
 import { rtlSupport } from "../../theme/rtl";
 
+
 export type Direction =
   (typeof rtlSupport.direction)[keyof typeof rtlSupport.direction];
 
@@ -24,9 +25,8 @@ interface DirectionProviderProps {
   defaultDirection?: Direction;
 }
 
-const DirectionContext = createContext<
-  DirectionContextValue | undefined
->(undefined);
+const DirectionContext =
+  createContext<DirectionContextValue | undefined>(undefined);
 
 const STORAGE_KEY = "app-direction";
 
@@ -55,9 +55,12 @@ export function DirectionProvider({
     return getStoredDirection() ?? defaultDirection;
   });
 
-  const setDirection = useCallback((newDirection: Direction) => {
-    setDirectionState(newDirection);
-  }, []);
+  const setDirection = useCallback(
+    (newDirection: Direction) => {
+      setDirectionState(newDirection);
+    },
+    []
+  );
 
   const toggleDirection = useCallback(() => {
     setDirectionState((currentDirection) =>
@@ -74,7 +77,6 @@ export function DirectionProvider({
     const root = document.documentElement;
 
     root.setAttribute("dir", direction);
-    root.setAttribute("lang", direction === "rtl" ? "ar" : "en");
   }, [direction]);
 
   /**

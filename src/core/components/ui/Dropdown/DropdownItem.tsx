@@ -6,12 +6,26 @@
 
 import { forwardRef } from 'react';
 import type { DropdownItemProps } from './types';
+import { useLanguage } from '../../../providers/LanguageProvider';
 
 export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(
   (
-    { children, icon, shortcut, disabled = false, danger = false, onClick, className = '' },
+    { 
+      children, 
+      icon, 
+      shortcut, 
+      disabled = false, 
+      danger = false, 
+      onClick, 
+      className = '',
+      style = {},
+      ...props 
+    },
     ref
   ) => {
+    const { direction } = useLanguage();
+    const isRTL = direction === 'rtl';
+
     const handleClick = (e: React.MouseEvent) => {
       if (disabled) return;
       onClick?.(e);
@@ -26,9 +40,9 @@ export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 'var(--spacing-3, 12px)',
+          gap: '0.75rem',
           width: '100%',
-          padding: 'var(--spacing-2, 8px) var(--spacing-3, 12px)',
+          padding: '0.5rem 0.75rem',
           borderRadius: 'var(--radius-sm, 4px)',
           fontSize: 'var(--font-size-sm, 14px)',
           fontWeight: 'var(--font-weight-normal, 400)',
@@ -39,8 +53,9 @@ export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(
           transition: 'background 0.15s ease, color 0.15s ease',
           border: 'none',
           outline: 'none',
-          textAlign: 'var(--start, left)' as any,
-          width: '100%',
+          textAlign: isRTL ? 'right' : 'left',
+          direction: isRTL ? 'rtl' : 'ltr',
+          ...style,
         }}
         className={className}
         onMouseEnter={(e) => {
@@ -51,16 +66,17 @@ export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(
         onMouseLeave={(e) => {
           e.currentTarget.style.background = 'transparent';
         }}
+        {...props}
       >
         {icon && (
           <span
             style={{
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'center',
               flexShrink: 0,
               width: '20px',
               height: '20px',
-              fontSize: '18px',
               color: danger ? 'var(--color-error, #ef4444)' : 'var(--color-text-secondary, #475569)',
             }}
           >
@@ -68,14 +84,25 @@ export const DropdownItem = forwardRef<HTMLButtonElement, DropdownItemProps>(
           </span>
         )}
 
-        <span style={{ flex: 1 }}>{children}</span>
+        <span
+          style={{
+            flex: 1,
+            minWidth: 0,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            textAlign: isRTL ? 'right' : 'left',
+          }}
+        >
+          {children}
+        </span>
 
         {shortcut && (
           <span
             style={{
               fontSize: 'var(--font-size-xs, 12px)',
               color: 'var(--color-text-muted, #94a3b8)',
-              marginLeft: 'var(--spacing-4, 16px)',
+              flexShrink: 0,
             }}
           >
             {shortcut}

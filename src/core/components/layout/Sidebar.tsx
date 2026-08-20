@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 
 import type { NavigationSection } from "../../types/navigation";
-import { useDirection } from "../../providers/DirectionProvider";
+import { useLanguage } from "../../providers/LanguageProvider";
 
 interface SidebarProps {
   items?: NavigationSection[];
@@ -60,7 +60,8 @@ export function Sidebar({
   collapsed = false,
   onToggle,
 }: SidebarProps) {
-  const { direction } = useDirection();
+  // ===== استخدم useLanguage بدل useDirection =====
+  const { direction } = useLanguage();
 
   return (
     <aside
@@ -77,7 +78,6 @@ export function Sidebar({
       }}
     >
       {/* Logo */}
-
       <div
         style={{
           height: "72px",
@@ -130,7 +130,6 @@ export function Sidebar({
       </div>
 
       {/* Navigation */}
-
       <nav
         style={{
           flex: 1,
@@ -239,7 +238,6 @@ export function Sidebar({
       </nav>
 
       {/* User Menu */}
-
       {!collapsed && (
         <div
           style={{
