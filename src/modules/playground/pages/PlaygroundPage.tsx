@@ -8,6 +8,9 @@
  */
 
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { useLanguage } from '../../../core/providers/LanguageProvider';
 
 // ===== UI Components =====
@@ -46,7 +49,18 @@ import {
   TabPanel,
   FormWizard,
   FormStep,
-} from '../../../core/components/ui';
+  // ===== الجديد =====
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+  FormDescription,
+  Spinner,
+  Skeleton,
+  ErrorBoundary,
+} from '../../../core/components';
 
 // ===== Icons =====
 import {
@@ -64,11 +78,40 @@ import {
   Settings,
   FileText,
   Award,
+  AlertCircle,
 } from 'lucide-react';
+
+// ===== Form Schema =====
+const formSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  confirmPassword: z.string().min(6, 'Password must be at least 6 characters'),
+  role: z.string().min(1, 'Please select a role'),
+  terms: z.boolean().refine((val) => val === true, 'You must agree to the terms'),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ['confirmPassword'],
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 const PlaygroundPage = () => {
   const { direction, language } = useLanguage();
   const toast = useToast();
+
+  // ===== Form =====
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      role: '',
+      terms: false,
+    },
+  });
 
   // ===== States =====
   const [modalOpen, setModalOpen] = useState(false);
@@ -86,11 +129,11 @@ const PlaygroundPage = () => {
   const totalItems = 150;
   const totalPages = Math.ceil(totalItems / pageSize);
 
-  // ===== Tabs States =====
-  const [activeTab, setActiveTab] = useState('tab1');
-
   // ===== Form Wizard States =====
   const [wizardStep, setWizardStep] = useState(0);
+
+  // ===== Error Boundary States =====
+  const [shouldThrowError, setShouldThrowError] = useState(false);
 
   // ===== Table Data =====
   const tableData = [
@@ -123,6 +166,13 @@ const PlaygroundPage = () => {
     { label: isRTL ? 'الملف الشخصي' : 'Profile', active: true },
   ];
 
+  // ===== Role Options =====
+  const roleOptions = [
+    { value: 'admin', label: isRTL ? 'مدير' : 'Admin' },
+    { value: 'user', label: isRTL ? 'مستخدم' : 'User' },
+    { value: 'editor', label: isRTL ? 'محرر' : 'Editor' },
+  ];
+
   // ===== Handlers =====
   const handleSubmit = () => {
     setIsLoading(true);
@@ -134,6 +184,15 @@ const PlaygroundPage = () => {
         variant: 'success',
       });
     }, 2000);
+  };
+
+  const handleFormSubmit = (data: FormValues) => {
+    console.log('Form Data:', data);
+    toast.toast({
+      title: isRTL ? 'تم الإرسال بنجاح' : 'Submitted Successfully',
+      message: isRTL ? 'تم إرسال النموذج بنجاح' : 'The form was submitted successfully.',
+      variant: 'success',
+    });
   };
 
   const handleError = () => {
@@ -159,6 +218,16 @@ const PlaygroundPage = () => {
       variant: 'warning',
     });
   };
+
+  // ===== Throw Error Handler =====
+  const handleThrowError = () => {
+    setShouldThrowError(true);
+  };
+
+  // ===== Error Boundary Fallback =====
+  if (shouldThrowError) {
+    throw new Error('This is a test error from the Playground!');
+  }
 
   return (
     <div
@@ -234,6 +303,293 @@ const PlaygroundPage = () => {
             <p style={{ fontSize: 'var(--font-size-xs, 12px)', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>
               {isRTL ? 'مع حد أقصى 3 عناصر' : 'With max 3 items'}
             </p>
+          </div>
+        </CardBody>
+      </Card>
+
+      {/* ========================================
+          SECTION: Forms (NEW)
+          ======================================== */}
+      <Card variant="default" padding="md" style={{ marginBottom: '2rem' }}>
+        <CardHeader>
+          <h3 style={{ fontSize: 'var(--font-size-lg, 18px)', fontWeight: 600 }}>
+            📝 {isRTL ? 'النماذج المتقدمة' : 'Advanced Forms'}
+          </h3>
+          <Badge variant="success">{isRTL ? 'مع react-hook-form' : 'With react-hook-form'}</Badge>
+        </CardHeader>
+        <CardBody>
+          <Form form={form} onSubmit={handleFormSubmit} schema={formSchema}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                gap: '1.5rem',
+              }}
+            >
+              {/* Name */}
+              <FormField name="name">
+                <FormItem>
+                  <FormLabel required>{isRTL ? 'الاسم' : 'Name'}</FormLabel>
+                  <FormControl>
+                    <Input 
+                      placeholder={isRTL ? 'أدخل اسمك' : 'Enter your name'}
+                      leftIcon={<User size={18} />}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {isRTL ? 'أدخل اسمك الكامل' : 'Enter your full name'}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              </FormField>
+
+              {/* Email */}
+              <FormField name="email">
+                <FormItem>
+                  <FormLabel required>{isRTL ? 'البريد الإلكتروني' : 'Email'}</FormLabel>
+                  <FormControl>
+                    <Input 
+                      type="email"
+                      placeholder="example@email.com"
+                      leftIcon={<Mail size={18} />}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {isRTL ? 'أدخل بريدك الإلكتروني الرسمي' : 'Enter your official email'}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              </FormField>
+
+              {/* Password */}
+              <FormField name="password">
+                <FormItem>
+                  <FormLabel required>{isRTL ? 'كلمة المرور' : 'Password'}</FormLabel>
+                  <FormControl>
+                    <Input 
+                      type="password"
+                      placeholder={isRTL ? 'أدخل كلمة المرور' : 'Enter password'}
+                      leftIcon={<Lock size={18} />}
+                      rightIcon={<EyeOff size={18} />}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {isRTL ? 'يجب أن تتكون من 6 أحرف على الأقل' : 'Must be at least 6 characters'}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              </FormField>
+
+              {/* Confirm Password */}
+              <FormField name="confirmPassword">
+                <FormItem>
+                  <FormLabel required>{isRTL ? 'تأكيد كلمة المرور' : 'Confirm Password'}</FormLabel>
+                  <FormControl>
+                    <Input 
+                      type="password"
+                      placeholder={isRTL ? 'أعد إدخال كلمة المرور' : 'Re-enter password'}
+                      leftIcon={<Lock size={18} />}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              </FormField>
+
+              {/* Role */}
+              <FormField name="role">
+                <FormItem>
+                  <FormLabel required>{isRTL ? 'الدور' : 'Role'}</FormLabel>
+                  <FormControl>
+                    <Select 
+                      options={roleOptions}
+                      placeholder={isRTL ? 'اختر الدور' : 'Select role'}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {isRTL ? 'اختر دور المستخدم في النظام' : 'Select the user role in the system'}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              </FormField>
+
+              {/* Terms */}
+              <FormField name="terms">
+                <FormItem>
+                  <FormControl>
+                    <Checkbox 
+                      label={isRTL ? 'أوافق على الشروط والأحكام' : 'I agree to the terms and conditions'}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {isRTL ? 'يجب الموافقة على الشروط للمتابعة' : 'You must agree to continue'}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              </FormField>
+            </div>
+
+            <div
+              style={{
+                marginTop: '2rem',
+                paddingTop: '1.5rem',
+                borderTop: '1px solid var(--color-border)',
+                display: 'flex',
+                gap: '1rem',
+                flexWrap: 'wrap',
+              }}
+            >
+              <Button
+                type="submit"
+                variant="primary"
+                leftIcon={<Save size={18} />}
+              >
+                {isRTL ? 'إرسال النموذج' : 'Submit Form'}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => form.reset()}
+              >
+                {isRTL ? 'إعادة تعيين' : 'Reset'}
+              </Button>
+            </div>
+          </Form>
+        </CardBody>
+      </Card>
+
+      {/* ========================================
+          SECTION: Loading (Spinner + Skeleton)
+          ======================================== */}
+      <Card variant="default" padding="md" style={{ marginBottom: '2rem' }}>
+        <CardHeader>
+          <h3 style={{ fontSize: 'var(--font-size-lg, 18px)', fontWeight: 600 }}>
+            ⏳ {isRTL ? 'التحميل' : 'Loading'}
+          </h3>
+          <Badge>{isRTL ? 'Spinner + Skeleton' : 'Spinner + Skeleton'}</Badge>
+        </CardHeader>
+        <CardBody>
+          {/* Spinners */}
+          <div style={{ marginBottom: '1.5rem' }}>
+            <h4 style={{ fontSize: 'var(--font-size-md, 16px)', marginBottom: '0.5rem' }}>
+              {isRTL ? 'مؤشرات التحميل' : 'Spinners'}
+            </h4>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '2rem',
+                alignItems: 'center',
+              }}
+            >
+              <Spinner size="sm" />
+              <Spinner size="md" />
+              <Spinner size="lg" />
+              <Spinner size="xl" />
+              <Spinner size="md" variant="secondary" />
+              <Spinner size="md" label={isRTL ? 'جاري التحميل...' : 'Loading...'} />
+            </div>
+          </div>
+
+          {/* Skeletons */}
+          <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '1rem' }}>
+            <h4 style={{ fontSize: 'var(--font-size-md, 16px)', marginBottom: '0.5rem' }}>
+              {isRTL ? 'هياكل التحميل' : 'Skeletons'}
+            </h4>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: '1rem',
+              }}
+            >
+              <div>
+                <p style={{ fontSize: 'var(--font-size-sm, 14px)', color: 'var(--color-text-secondary)', marginBottom: '0.5rem' }}>
+                  {isRTL ? 'نص' : 'Text'}
+                </p>
+                <Skeleton variant="text" count={3} />
+              </div>
+              <div>
+                <p style={{ fontSize: 'var(--font-size-sm, 14px)', color: 'var(--color-text-secondary)', marginBottom: '0.5rem' }}>
+                  {isRTL ? 'دائري' : 'Circle'}
+                </p>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <Skeleton variant="circle" width="40px" height="40px" />
+                  <Skeleton variant="circle" width="56px" height="56px" />
+                  <Skeleton variant="avatar" width="48px" height="48px" />
+                </div>
+              </div>
+              <div>
+                <p style={{ fontSize: 'var(--font-size-sm, 14px)', color: 'var(--color-text-secondary)', marginBottom: '0.5rem' }}>
+                  {isRTL ? 'بطاقة' : 'Card'}
+                </p>
+                <Skeleton variant="card" height="120px" />
+              </div>
+              <div>
+                <p style={{ fontSize: 'var(--font-size-sm, 14px)', color: 'var(--color-text-secondary)', marginBottom: '0.5rem' }}>
+                  {isRTL ? 'مستطيل' : 'Rectangle'}
+                </p>
+                <Skeleton variant="rect" height="60px" />
+                <div style={{ marginTop: '0.5rem' }}>
+                  <Skeleton variant="rect" width="80%" height="20px" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardBody>
+      </Card>
+
+      {/* ========================================
+          SECTION: Error Boundary
+          ======================================== */}
+      <Card variant="default" padding="md" style={{ marginBottom: '2rem' }}>
+        <CardHeader>
+          <h3 style={{ fontSize: 'var(--font-size-lg, 18px)', fontWeight: 600 }}>
+            🛡️ {isRTL ? 'حدود الأخطاء' : 'Error Boundary'}
+          </h3>
+          <Badge variant="danger">{isRTL ? 'اختبر الخطأ' : 'Test Error'}</Badge>
+        </CardHeader>
+        <CardBody>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <Alert variant="warning" icon={<AlertCircle size={20} />}>
+              {isRTL
+                ? 'اضغط على الزر التالي لاختبار حدود الأخطاء'
+                : 'Click the button below to test error boundary'}
+            </Alert>
+            
+            {/* ===== Error Boundary Wrapper ===== */}
+            <ErrorBoundary
+              fallback={
+                <Alert variant="error" title={isRTL ? 'تم اكتشاف خطأ!' : 'Error Detected!'}>
+                  {isRTL
+                    ? 'تم التقاط الخطأ بواسطة ErrorBoundary'
+                    : 'The error was caught by ErrorBoundary'}
+                  <div style={{ marginTop: '0.5rem' }}>
+                    <Button 
+                      variant="primary" 
+                      size="sm"
+                      onClick={() => setShouldThrowError(false)}
+                    >
+                      {isRTL ? 'إعادة المحاولة' : 'Retry'}
+                    </Button>
+                  </div>
+                </Alert>
+              }
+            >
+              <div style={{ padding: '1rem', background: 'var(--color-background-secondary, #f1f5f9)', borderRadius: 'var(--radius-md)' }}>
+                <Button 
+                  variant="danger" 
+                  onClick={handleThrowError}
+                  leftIcon={<AlertCircle size={18} />}
+                >
+                  {isRTL ? 'إلقاء خطأ' : 'Throw Error'}
+                </Button>
+                <p style={{ marginTop: '0.5rem', fontSize: 'var(--font-size-sm, 14px)', color: 'var(--color-text-secondary)' }}>
+                  {isRTL
+                    ? 'هذا الزر سيلقي خطأ وسيتم التقاطه بواسطة ErrorBoundary'
+                    : 'This button will throw an error and it will be caught by ErrorBoundary'}
+                </p>
+              </div>
+            </ErrorBoundary>
           </div>
         </CardBody>
       </Card>
@@ -822,7 +1178,8 @@ const PlaygroundPage = () => {
       </Card>
 
       {/* ========================================
-          SECTION: Toast          ======================================== */}
+          SECTION: Toast
+          ======================================== */}
       <Card variant="default" padding="md" style={{ marginBottom: '2rem' }}>
         <CardHeader>
           <h3 style={{ fontSize: 'var(--font-size-lg, 18px)', fontWeight: 600 }}>

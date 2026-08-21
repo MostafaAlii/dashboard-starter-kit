@@ -10,10 +10,10 @@ import type { ButtonProps, ButtonVariant, ButtonSize } from './types';
 
 const variantStyles: Record<ButtonVariant, { bg: string; hover: string; text: string; border: string }> = {
   primary: {
-    bg: 'var(--color-primary)',
-    hover: 'var(--color-primary-hover)',
+    bg: 'var(--color-primary, #3b82f6)',
+    hover: 'var(--color-primary-hover, #2563eb)',
     text: '#ffffff',
-    border: 'var(--color-primary)',
+    border: 'var(--color-primary, #3b82f6)',
   },
   secondary: {
     bg: 'var(--color-secondary, #8b5cf6)',
@@ -118,7 +118,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           cursor: disabled || loading ? 'not-allowed' : 'pointer',
           opacity: disabled ? 0.5 : loading ? 0.7 : 1,
           width: fullWidth ? '100%' : 'auto',
-          transition: 'background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease',
+          transition: 'background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease, color 0.2s ease',
           textDecoration: 'none',
           direction: isRTL ? 'rtl' : 'ltr',
           userSelect: 'none',
@@ -131,21 +131,39 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             background: 'transparent',
             border: '1px solid transparent',
           }),
+          // ===== في Dark Mode، النصوص تفضل بيضاء على الأزرار الأساسية =====
+          ...((variant === 'primary' || variant === 'secondary' || variant === 'success' || variant === 'danger' || variant === 'info') && {
+            color: '#ffffff',
+          }),
         }}
         className={className}
         onMouseEnter={(e) => {
           if (disabled || loading) return;
-          if (variant !== 'ghost' && variant !== 'outline') {
+          
+          // ===== Hover Styles =====
+          if (variant === 'ghost' || variant === 'outline') {
             e.currentTarget.style.background = variantStyle.hover;
+            e.currentTarget.style.color = 'var(--color-text, #0f172a)';
           } else {
             e.currentTarget.style.background = variantStyle.hover;
+            // ===== في primary/secondary/etc اللون يفضل أبيض =====
+            if (variant === 'primary' || variant === 'secondary' || variant === 'success' || variant === 'danger' || variant === 'info') {
+              e.currentTarget.style.color = '#ffffff';
+            }
           }
         }}
         onMouseLeave={(e) => {
           if (variant === 'ghost' || variant === 'outline') {
             e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.color = variantStyle.text;
           } else {
             e.currentTarget.style.background = variantStyle.bg;
+            // ===== إعادة اللون الأصلي =====
+            if (variant === 'primary' || variant === 'secondary' || variant === 'success' || variant === 'danger' || variant === 'info') {
+              e.currentTarget.style.color = '#ffffff';
+            } else if (variant === 'warning') {
+              e.currentTarget.style.color = '#0f172a';
+            }
           }
         }}
         {...props}

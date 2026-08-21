@@ -1,70 +1,96 @@
-طيب كدا عملنا
-src/core/components/ui/
-├── Button/
-│   ├── Button.tsx
-│   ├── ButtonGroup.tsx
-│   ├── types.ts
-│   └── index.ts
-│
-├── Input/
-│   ├── Input.tsx
-│   ├── Textarea.tsx
-│   ├── Select.tsx
-│   ├── Checkbox.tsx
-│   ├── Radio.tsx
-│   ├── Switch.tsx
-│   └── index.ts
-├── Modal/
-│   ├── Modal.tsx
-│   ├── ModalHeader.tsx
-│   ├── ModalBody.tsx
-│   ├── ModalFooter.tsx
-│   └── index.ts
-├── Alert/
-│   ├── Alert.tsx
-│   ├── AlertTitle.tsx
-│   ├── AlertDescription.tsx
-│   └── index.ts
-│
-├── Toast/
-│   ├── Toast.tsx
-│   ├── ToastContainer.tsx
-│   └── index.ts
-├── Badge/
-│   ├── Badge.tsx
-│   └── index.ts
-│
-└── Card/
-    ├── Card.tsx
-    ├── CardHeader.tsx
-    ├── CardBody.tsx
-    ├── CardFooter.tsx
-    └── index.ts
---------------------------------
-عاوزين نعمل بقى
-── Breadcrumbs/
-    ├── Breadcrumbs.tsx
-    ├── BreadcrumbItem.tsx
-    └── index.ts
-├── Table/
-│   ├── Table.tsx
-│   ├── TableHeader.tsx
-│   ├── TableBody.tsx
-│   ├── TableRow.tsx
-│   ├── TableCell.tsx
-│   └── index.ts
-│
-├── Pagination/
-│   ├── Pagination.tsx
-│   └── index.ts
-│
-├── Tabs/
-│   ├── Tabs.tsx
-│   ├── TabList.tsx
-│   ├── TabPanel.tsx
-│   └── index.ts
-│
-└── FormWizard/
-    ├── FormWizard.tsx
-    ├── FormStep.tsx
-    └── index.ts
+src/core/components/
+├── forms/ done
+|   ├── Form.tsx (react-hook-form wrapper) done
+|   ├── FormField.tsx done
+|   ├── FormItem.tsx done
+|   ├── FormLabel.tsx done
+|   ├── FormControl.tsx done
+|   ├── FormMessage.tsx done
+|   ├── FormDescription.tsx done
+|   └── index.ts done
+├── ErrorBoundary/ done
+│   ├── ErrorBoundary.tsx done
+│   └── index.ts done
+├── Fallback/ done
+│   ├── NotFound.tsx done
+│   ├── ServerError.tsx done
+│   └── index.ts done
+└── Loading/ done
+|   ├── Spinner.tsx done
+|   ├── Skeleton.tsx done
+|   └── index.ts done
+├──ui/
+    ├── Button/ done
+    │   ├── Button.tsx
+    │   ├── ButtonGroup.tsx
+    │   ├── types.ts
+    │   └── index.ts
+    ├── Input/ done
+    │   ├── Input.tsx
+    │   ├── Textarea.tsx
+    │   ├── Select.tsx
+    │   ├── Checkbox.tsx
+    │   ├── Radio.tsx
+    │   ├── Switch.tsx
+    │   └── index.ts
+    ├── Dropdown/ done
+    │   ├── Dropdown.tsx
+    │   ├── DropdownHeader.tsx
+    │   ├── DropdownItem.tsx
+    │   ├── DropdownMenu.tsx
+    │   ├── DropdownSeparator.tsx
+    │   ├── DropdownTrigger.tsx
+    │   └── index.ts
+    ├── Avatar/ done
+    │   ├── Avatar.tsx
+    │   ├── AvatarFallback.tsx
+    │   ├── AvatarGropup.tsx
+    │   ├── AvatarImage.tsx
+    │   └── index.ts
+    ├── Modal/ done
+    │   ├── Modal.tsx
+    │   ├── ModalHeader.tsx
+    │   ├── ModalBody.tsx
+    │   ├── ModalFooter.tsx
+    │   └── index.ts
+    ├── Alert/ done
+    │   ├── Alert.tsx
+    │   ├── AlertTitle.tsx
+    │   ├── AlertDescription.tsx
+    │   └── index.ts
+    ├── Toast/ done
+    │   ├── Toast.tsx
+    │   ├── ToastContainer.tsx
+    │   └── index.ts
+    ├── Badge/ done
+    │   ├── Badge.tsx
+    │   └── index.ts
+    └── Card/ done
+    |    ├── Card.tsx
+    |    ├── CardHeader.tsx
+    |    ├── CardBody.tsx
+    |    ├── CardFooter.tsx
+    |    └── index.ts
+    |── Breadcrumbs/ done
+    |    ├── Breadcrumbs.tsx
+    |    ├── BreadcrumbItem.tsx
+    |    └── index.ts
+    ├── Table/ done
+    │   ├── Table.tsx
+    │   ├── TableHeader.tsx
+    │   ├── TableBody.tsx
+    │   ├── TableRow.tsx
+    │   ├── TableCell.tsx
+    │   └── index.ts
+    ├── Pagination/ done
+    │   ├── Pagination.tsx
+    │   └── index.ts
+    ├── Tabs/ done
+    │   ├── Tabs.tsx
+    │   ├── TabList.tsx
+    │   ├── TabPanel.tsx
+    │   └── index.ts
+    └── FormWizard/ done
+        ├── FormWizard.tsx
+        ├── FormStep.tsx
+        └── index.ts
