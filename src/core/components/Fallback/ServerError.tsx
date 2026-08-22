@@ -45,7 +45,6 @@ const ServerError = ({ error, onRetry }: ServerErrorProps) => {
           maxWidth: '480px',
         }}
       >
-        {/* ===== Icon ===== */}
         <div
           style={{
             fontSize: '6rem',
@@ -56,7 +55,6 @@ const ServerError = ({ error, onRetry }: ServerErrorProps) => {
           ⚙️
         </div>
 
-        {/* ===== Title ===== */}
         <h1
           style={{
             fontSize: 'var(--font-size-2xl, 24px)',
@@ -68,7 +66,6 @@ const ServerError = ({ error, onRetry }: ServerErrorProps) => {
           {isRTL ? 'خطأ في الخادم' : 'Server Error'}
         </h1>
 
-        {/* ===== Description ===== */}
         <p
           style={{
             color: 'var(--color-text-secondary, #475569)',
@@ -81,7 +78,6 @@ const ServerError = ({ error, onRetry }: ServerErrorProps) => {
             : 'Sorry, something went wrong on our server. Please try again later.'}
         </p>
 
-        {/* ===== Error Details (if available) ===== */}
         {error && (
           <div
             style={{
@@ -118,7 +114,6 @@ const ServerError = ({ error, onRetry }: ServerErrorProps) => {
           </div>
         )}
 
-        {/* ===== Actions ===== */}
         <div
           style={{
             display: 'flex',
@@ -130,15 +125,15 @@ const ServerError = ({ error, onRetry }: ServerErrorProps) => {
           <Button
             variant="primary"
             onClick={handleRetry}
-            leftIcon={<span>🔄</span>}
           >
+            <span style={{ marginRight: '0.5rem' }}>🔄</span>
             {isRTL ? 'إعادة المحاولة' : 'Retry'}
           </Button>
           <Button
             variant="outline"
             onClick={() => navigate('/')}
-            leftIcon={<span>🏠</span>}
           >
+            <span style={{ marginRight: '0.5rem' }}>🏠</span>
             {isRTL ? 'العودة إلى الرئيسية' : 'Back to Home'}
           </Button>
         </div>

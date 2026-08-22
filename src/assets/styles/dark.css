@@ -103,8 +103,9 @@
   --color-scrollbar-thumb-hover: #475569;
 
   /* ===== Shadows ===== */
-  --color-shadow: rgba(0, 0, 0, 0.4);
-  --color-shadow-light: rgba(0, 0, 0, 0.2);
+  --color-shadow: rgba(0, 0, 0, 0.3);
+  --color-shadow-light: rgba(255, 255, 255, 0.02);
+  --color-border-light: rgba(255, 255, 255, 0.04);
 
   /* ===== Overlay ===== */
   --color-overlay: rgba(15, 23, 42, 0.8);

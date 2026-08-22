@@ -32,7 +32,6 @@ const NotFound = () => {
           maxWidth: '480px',
         }}
       >
-        {/* ===== 404 Number ===== */}
         <div
           style={{
             fontSize: '8rem',
@@ -46,7 +45,6 @@ const NotFound = () => {
           404
         </div>
 
-        {/* ===== Icon ===== */}
         <div
           style={{
             fontSize: '4rem',
@@ -56,7 +54,6 @@ const NotFound = () => {
           🔍
         </div>
 
-        {/* ===== Title ===== */}
         <h1
           style={{
             fontSize: 'var(--font-size-2xl, 24px)',
@@ -68,7 +65,6 @@ const NotFound = () => {
           {isRTL ? 'الصفحة غير موجودة' : 'Page Not Found'}
         </h1>
 
-        {/* ===== Description ===== */}
         <p
           style={{
             color: 'var(--color-text-secondary, #475569)',
@@ -81,7 +77,6 @@ const NotFound = () => {
             : 'Sorry, the page you are looking for does not exist or has been moved.'}
         </p>
 
-        {/* ===== Actions ===== */}
         <div
           style={{
             display: 'flex',
@@ -93,15 +88,15 @@ const NotFound = () => {
           <Button
             variant="primary"
             onClick={() => navigate('/')}
-            leftIcon={<span>🏠</span>}
           >
+            <span style={{ marginRight: '0.5rem' }}>🏠</span>
             {isRTL ? 'العودة إلى الرئيسية' : 'Back to Home'}
           </Button>
           <Button
             variant="outline"
             onClick={() => navigate(-1)}
-            leftIcon={<span>⬅️</span>}
           >
+            <span style={{ marginRight: '0.5rem' }}>⬅️</span>
             {isRTL ? 'العودة للخلف' : 'Go Back'}
           </Button>
         </div>
